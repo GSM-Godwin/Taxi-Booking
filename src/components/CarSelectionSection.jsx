@@ -5,12 +5,14 @@ import FormDataContext from './FormDataContext';
 import sedan from '../assets/sedan.png'
 import SUV from '../assets/SUV.png'
 
-const CarSelectionSection = () => {
+const CarSelectionSection = ({ errors }) => {
     const { formData, updateFormData } = useContext(FormDataContext);
 
     // Retrieve distance from formData
-    const distance = formData.booking.distance * 0.621371; // Distance in miles
+    const distance = formData.booking.distance * 2; // Distance in miles
+    // const distance = formData.booking.distance * 0.621371; // Distance in miles
     const boosterSeats = formData.booking.boosterSeats
+    const isReturnTripBooked = formData.booking.returnTrip
 
     const [selectedCar, setSelectedCar] = useState({ car: '', price: '' });
 
@@ -65,7 +67,13 @@ const CarSelectionSection = () => {
         }
         // Add additional charge for booster seats
         const boosterSeatCharge = boosterSeats * 15;
-        return basePrice + boosterSeatCharge;
+        let totalPrice = basePrice * distance + boosterSeatCharge;
+
+        if (isReturnTripBooked) {
+            totalPrice *= 2;
+        }
+
+        return totalPrice;
     };
 
     const handleCarSelection = ({ car }) => {
@@ -92,6 +100,7 @@ const CarSelectionSection = () => {
               <img src={SUV} alt="SUV" className="w-full h-full object-cover mb-2" />
               <p className="mb-2 font-bold">Price: ${calculatePrice('SUV', distance, boosterSeats)}</p>
               <button onClick={() => handleCarSelection({ car: 'SUV' })} className="bg-blue-500 text-white py-2 px-4 rounded-md">Select SUV</button>
+              <p>{distance}</p>
             </div>
           </div>
           {/* Second Card */}
@@ -104,6 +113,7 @@ const CarSelectionSection = () => {
             </div>
           </div>
         </div>
+        {errors.car && <div className="error">{errors.car}</div>}
       </div>
     </div>
   );

@@ -1,18 +1,17 @@
-// Payment.jsx
 import React, { useState, useContext } from 'react';
-import emailjs from 'emailjs-com'; // Import EmailJS SDK
+import emailjs from 'emailjs-com'; 
 import FormDataContext from './FormDataContext';
-import { PayPalButton } from 'react-paypal-button-v2'; // Import PayPal button component
+import { PayPalButton } from 'react-paypal-button-v2';
 
 const Payment = () => {
     const { formData, updateFormData } = useContext(FormDataContext);
     const apiKey = 'tQSG_Rs2blISwvPAo'
     const { selectedCar } = formData.carSelection
 
-    // Retrieve selected car price
+
+
     const selectedCarPrice = selectedCar.price;
     
-
     // Handle payment platform selection
     const handlePaymentPlatformSelection = (platform) => {
         // Update payment method in formData
@@ -188,23 +187,23 @@ const Payment = () => {
             </div>
             {/* Conditionally render PayPal button */}
             {paymentMethod === 'paypal' && (
-                        <PayPalButton
-                            amount={selectedCarPrice} // Pass the amount to be paid
-                            onSuccess={handlePaymentSuccess} // Callback for successful payment
-                            onError={handlePaymentError} // Callback for payment error
-                            options={{
-                                clientId: 'ASpzIPFU4adHK1_jok_lWyj0buLhsBG9XNOGrhFr8T2YNCMwIkxMMdhrLKxJmr71woU7z0IAzWZy9TzQ', // Replace with your PayPal client ID
-                            }}
-                        />
-                    )}
+              <PayPalButton
+                  amount={selectedCarPrice} // Pass the amount to be paid
+                  onSuccess={handlePaymentSuccess} // Callback for successful payment
+                  onError={handlePaymentError} // Callback for payment error
+                  options={{
+                      clientId: 'ASpzIPFU4adHK1_jok_lWyj0buLhsBG9XNOGrhFr8T2YNCMwIkxMMdhrLKxJmr71woU7z0IAzWZy9TzQ', // Replace with your PayPal client ID
+                  }}
+              />
+          )}
            {/* Conditionally render submit button if payment method is not PayPal */}
            {paymentMethod !== 'paypal' && (
-                        <div className='mt-4 text-white font-bold'>
-                            <button type='submit' className={`bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md`}>
-                                Submit
-                            </button>
-                        </div>
-                    )}
+              <div className='mt-4 text-white font-bold'>
+                  <button type='submit' className={`bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md`}>
+                      Submit
+                  </button>
+              </div>
+          )}
         </form>
       </div>
 

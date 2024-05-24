@@ -13,6 +13,10 @@ export const FormDataProvider = ({ children }) => {
       passengerCount: 0,
       luggageCount: 0,
       boosterSeats: 0,
+      distance: null,
+      returnDate: '',
+      returnTime: '',
+      returnTrip: false,
     },
     carSelection: {
       selectedCar: '',
@@ -41,4 +45,4 @@ export const FormDataProvider = ({ children }) => {
   );
 };
 
-export default FormDataContext;
+export default FormDataContext; 

@@ -1,8 +1,7 @@
-// BookingSection.js
 import React, { useState, useContext, useRef, useEffect  } from 'react';
 import FormDataContext from './FormDataContext';
 
-const BookingSection = () => {
+const BookingSection = ({ errors, setErrors }) => {
     const { formData, updateFormData } = useContext(FormDataContext);
 
     
@@ -10,10 +9,12 @@ const BookingSection = () => {
     const [dropOffLocation, setDropOffLocation] = useState('');
     const [pickupDate, setPickupDate] = useState('');
     const [pickupTime, setPickupTime] = useState('');
-    const [passengerCount, setPassengerCount] = useState(0);
-    const [luggageCount, setLuggageCount] = useState(0);
+    const [passengerCount, setPassengerCount] = useState(1);
+    const [luggageCount, setLuggageCount] = useState(1);
     const [boosterSeats, setBoosterSeats] = useState(0);
     const [distance, setDistance] = useState(null); // State variable for distance
+    const [returnDate, setReturnDate] = useState('');
+    const [returnTime, setReturnTime] = useState('');
 
     const pickupInputRef = useRef(null);
     const dropoffInputRef = useRef(null);
@@ -21,6 +22,8 @@ const BookingSection = () => {
 
     const [pickupMarker, setPickupMarker] = useState(null); // State variable for pickup marker
     const [dropoffMarker, setDropoffMarker] = useState(null); // State variable for drop-off marker
+
+    const [isChecked, setIsChecked] = useState(formData.booking.returnTrip);
 
 
   useEffect(() => {
@@ -150,35 +153,52 @@ const BookingSection = () => {
     });
   };
 
-  
-
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case 'pickupLocation':
-        setPickupLocation(value);
-        break;
-      case 'dropOffLocation':
-        setDropOffLocation(value);
-        break;
-      case 'pickupDate':
-        setPickupDate(value);
-        break;
-      case 'pickupTime':
-        setPickupTime(value);
-        break;
-      case 'passengerCount':
-        setPassengerCount(parseInt(value));
-        break;
-      case 'luggageCount':
-        setLuggageCount(parseInt(value));
-        break;
-      case 'boosterSeats':
-        setBoosterSeats(parseInt(value));
-        break;
-      default:
-        break;
+    const { name, value, checked, type } = e.target;
+
+      if (type === 'checkbox') {
+        setIsChecked(checked);
+        updateFormData('booking', { returnTrip: checked });
+      } else {
+        switch (name) {
+          case 'pickupLocation':
+            setPickupLocation(value);
+            errors.pickupLocation=""
+            break;
+          case 'dropOffLocation':
+            setDropOffLocation(value);
+            errors.dropOffLocation=""
+            break;
+          case 'pickupDate':
+            setPickupDate(value);
+            errors.pickupDate=""
+            break;
+          case 'pickupTime':
+            setPickupTime(value);
+            errors.pickupTime=""
+            break;
+          case 'passengerCount':
+            setPassengerCount(parseInt(value));
+            break;
+          case 'luggageCount':
+            setLuggageCount(parseInt(value));
+            break;
+          case 'boosterSeats':
+            setBoosterSeats(parseInt(value));
+            break;
+          case 'returnDate':
+            setReturnDate(value);
+            errors.returnDate=""
+            break;
+          case 'returnTime':
+            setReturnTime(value);
+            errors.returnTime=""
+            break;
+          default:
+            break;
+        }
     }
+
     updateFormData('booking', {
         ...formData.booking,
         [name]: value,
@@ -189,7 +209,10 @@ const BookingSection = () => {
         passengerCount: name === 'passengerCount' ? parseInt(value) : passengerCount,
         luggageCount: name === 'luggageCount' ? parseInt(value) : luggageCount,
         boosterSeats: name === 'boosterSeats' ? parseInt(value) : boosterSeats,
-    });
+        returnTrip : name === 'returnTrip' ? value : isChecked,
+        returnDate: name === 'returnDate' ? value : returnDate,
+        returnTime: name === 'returnTime' ? value : returnTime,
+      });
   };
 
   const getCurrentDate = () => {
@@ -243,7 +266,7 @@ const BookingSection = () => {
 
 return (
     <div className="flex flex-col lg:flex-row mt-8 p-6 bg-gray-100 rounded-md shadow-md">
-        <div className="w-full md:w-1/2 md:pr-4">
+        <div className="w-full md:pr-4">
             <h2 className="text-2xl font-bold mb-4">Booking</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div>
@@ -259,6 +282,7 @@ return (
                     placeholder="Enter pick-up location"
                     className="border p-2 rounded-md w-full"
                     />
+                    {errors.pickupLocation && <div className="error">{errors.pickupLocation}</div>}
                 </div>
                 <div>
                     <label htmlFor="dropOffLocation" className="flex mb-1">Drop-off Location</label>
@@ -273,6 +297,7 @@ return (
                     placeholder="Enter drop-off location"
                     className="border p-2 rounded-md w-full"
                     />
+                    {errors.dropOffLocation && <div className="error">{errors.dropOffLocation}</div>}
                 </div>
                 <div>
                     <label htmlFor="pickupDate" className="flex mb-1">Pick-up Date</label>
@@ -286,6 +311,7 @@ return (
                     min={getCurrentDate()}
                     className="border p-2 rounded-md w-full"
                     />
+                    {errors.pickupDate && <div className="error">{errors.pickupDate}</div>}
                 </div>
                 <div>
                     <label htmlFor="pickupTime" className="flex mb-1">Pick-up Time</label>
@@ -300,6 +326,7 @@ return (
                     step="1800" // 30 minutes step
                     className="border p-2 rounded-md w-full"
                     />
+                    {errors.pickupTime && <div className="error">{errors.pickupTime}</div>}
                 </div>
                 <div>
                     <label htmlFor="passengerCount" className="flex mb-1">Number of Passengers</label>
@@ -311,7 +338,6 @@ return (
                     min={1}
                     onChange={handleInputChange}
                     required
-                    placeholder="Enter number of passengers"
                     className="border p-2 rounded-md w-full"
                     />
                 </div>
@@ -325,7 +351,6 @@ return (
                     min={0}
                     onChange={handleInputChange}
                     required
-                    placeholder="Enter luggage count"
                     className="border p-2 rounded-md w-full"
                     />
                 </div>
@@ -339,10 +364,53 @@ return (
                     min={0}
                     required
                     onChange={handleInputChange}
-                    placeholder="Enter number of booster seats"
                     className="border p-2 rounded-md w-full"
                     />
                 </div>
+                <div className='flex gap-5 items-center'>
+                  <label htmlFor="returnTrip" className='flex mb-1'>Book Return Trip?</label>
+                  <input 
+                    type="checkbox" 
+                    id='returnTrip'
+                    name="returnTrip"
+                    checked={isChecked}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <p>{formData.booking.distance}</p>
+                {isChecked && (
+                  <div className='flex flex-col w-full'>
+                    <div id='return' className='w-full'>
+                      <label htmlFor="returnDate" className="flex mb-1">Return Date</label>
+                      <input
+                      type="date"
+                      id="returnDate"
+                      name="returnDate"
+                      value={returnDate}
+                      onChange={handleInputChange}
+                      required
+                      min={getCurrentDate()}
+                      className="border p-2 rounded-md w-full"
+                      />
+                      {errors.returnDate && <div className="error">{errors.returnDate}</div>}
+                  </div>
+                  <div className='w-full'>
+                      <label htmlFor="returnTime" className="flex mb-1">Return Time</label>
+                      <input
+                      type="time"
+                      id="returnTime"
+                      name="returnTime"
+                      value={returnTime}
+                      onChange={handleInputChange}
+                      required
+                      min={getCurrentTime()}
+                      step="1800" // 30 minutes step
+                      className="border p-2 rounded-md w-full"
+                      />
+                      {errors.returnTime && <div className="error">{errors.returnTime}</div>}
+                  </div>
+                  </div>
+                )}
             </div>
         </div>
         {/* Map placeholder */}
