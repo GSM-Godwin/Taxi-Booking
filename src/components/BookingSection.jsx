@@ -377,7 +377,6 @@ return (
                     onChange={handleInputChange}
                   />
                 </div>
-                <p>{formData.booking.distance}</p>
                 {isChecked && (
                   <div className='flex flex-col w-full'>
                     <div id='return' className='w-full'>
