@@ -192,7 +192,7 @@ const Payment = () => {
                   onSuccess={handlePaymentSuccess} // Callback for successful payment
                   onError={handlePaymentError} // Callback for payment error
                   options={{
-                      clientId: 'ASpzIPFU4adHK1_jok_lWyj0buLhsBG9XNOGrhFr8T2YNCMwIkxMMdhrLKxJmr71woU7z0IAzWZy9TzQ', // Replace with your PayPal client ID
+                      clientId: 'AQc83IkxnClM8M7RPdbtbbMQmZiuydd3DaSvvEiJSE3nsPtTZSUNSn2E5AneYV-CpleSJKVDP2y9TGaz',
                   }}
               />
           )}
@@ -200,7 +200,7 @@ const Payment = () => {
            {paymentMethod !== 'paypal' && (
               <div className='mt-4 text-white font-bold'>
                   <button type='submit' className={`bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md`}>
-                      Submit
+                      Confirm Booking
                   </button>
               </div>
           )}

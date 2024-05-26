@@ -4,7 +4,7 @@ import AppContent from './AppContent';
 
 const App = () => {
   return (
-    <FormDataProvider> {/* Wrap App component with FormDataProvider */}
+    <FormDataProvider>
       <AppContent />
     </FormDataProvider>
   );

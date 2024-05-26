@@ -9,7 +9,7 @@ const CarSelectionSection = ({ errors }) => {
     const { formData, updateFormData } = useContext(FormDataContext);
 
     // Retrieve distance from formData
-    const distance = formData.booking.distance * 2; // Distance in miles
+    const distance = formData.booking.distance;
     // const distance = formData.booking.distance * 0.621371; // Distance in miles
     const boosterSeats = formData.booking.boosterSeats
     const isReturnTripBooked = formData.booking.returnTrip
@@ -26,54 +26,58 @@ const CarSelectionSection = ({ errors }) => {
         switch (car) {
             case 'SUV':
                 if (distance <= 5) {
-                    basePrice = 70;
+                    basePrice = 1.40;
                 } else if (distance <= 15) {
-                    basePrice = 90;
+                    basePrice = 1.40;
                 } else if (distance <= 25) {
-                    basePrice = 140;
+                    basePrice = 1.40;
                 } else if (distance <= 35) {
-                    basePrice = 170;
+                    basePrice = 1.40;
                 } else if (distance <= 45) {
-                    basePrice = 190;
+                    basePrice = 1.40;
                 } else if (distance <= 55) {
-                    basePrice = 270;
+                    basePrice = 1.40;
                 } else if (distance <= 70) {
-                    basePrice = 300;
+                    basePrice = 1.40;
                 } else if (distance <= 100) {
-                    basePrice = 400;
+                    basePrice = 1.40;
+                } else if (distance > 100) {
+                    basePrice = 1.40;
                 }
                 break;
             case 'Sedan':
                 if (distance <= 5) {
-                    basePrice = 60;
+                    basePrice = 1.40;
                 } else if (distance <= 15) {
-                    basePrice = 85;
+                    basePrice = 1.40;
                 } else if (distance <= 25) {
-                    basePrice = 125;
+                    basePrice = 1.40;
                 } else if (distance <= 35) {
-                    basePrice = 145;
+                    basePrice = 1.40;
                 } else if (distance <= 45) {
-                    basePrice = 175;
+                    basePrice = 1.40;
                 } else if (distance <= 55) {
-                    basePrice = 215;
+                    basePrice = 1.40;
                 } else if (distance <= 70) {
-                    basePrice = 270;
+                    basePrice = 1.40;
                 } else if (distance <= 100) {
-                    basePrice = 330;
+                    basePrice = 1.40;
+                } else if (distance > 100) {
+                    basePrice = 1.40;
                 }
                 break;
             default:
                 break;
         }
         // Add additional charge for booster seats
-        const boosterSeatCharge = boosterSeats * 15;
+        const boosterSeatCharge = boosterSeats * 1;
         let totalPrice = basePrice * distance + boosterSeatCharge;
 
         if (isReturnTripBooked) {
             totalPrice *= 2;
         }
 
-        return totalPrice;
+        return totalPrice.toFixed(2);
     };
 
     const handleCarSelection = ({ car }) => {
@@ -98,9 +102,8 @@ const CarSelectionSection = ({ errors }) => {
             <div className="p-4">
               <h2 className="flex text-lg font-bold mb-2 justify-center">SUV</h2>
               <img src={SUV} alt="SUV" className="w-full h-full object-cover mb-2" />
-              <p className="mb-2 font-bold">Price: ${calculatePrice('SUV', distance, boosterSeats)}</p>
+              <p className="mb-2 font-bold">Price: €{calculatePrice('SUV', distance, boosterSeats)}</p>
               <button onClick={() => handleCarSelection({ car: 'SUV' })} className="bg-blue-500 text-white py-2 px-4 rounded-md">Select SUV</button>
-              <p>{distance}</p>
             </div>
           </div>
           {/* Second Card */}
@@ -108,7 +111,7 @@ const CarSelectionSection = ({ errors }) => {
             <div className="p-4">
               <h2 className="flex text-lg font-bold mb-2 justify-center">Sedan</h2>
               <img src={sedan} alt="Sedan" width={40} className="w-full h-full object-cover mb-2 mt-10 lg:mt-20" />
-              <p className="mt-16 mb-2 font-bold">Price: ${calculatePrice('Sedan', distance, boosterSeats)}</p>
+              <p className="mt-16 mb-2 font-bold">Price: €{calculatePrice('Sedan', distance, boosterSeats)}</p>
               <button onClick={() => handleCarSelection({ car: 'Sedan' })} className="bg-blue-500 text-white py-2 px-4 rounded-md">Select Sedan</button>
             </div>
           </div>

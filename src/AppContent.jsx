@@ -63,7 +63,7 @@ const AppContent = () => {
       <div className="flex justify-center items-center py-3">
         <div id="container" className="bg-gray-100 rounded-md shadow-md p-8">
           <div className="flex justify-center mb-4">
-            <img src={logo} alt="logo" width={70} />
+            <img src={logo} alt="logo" width={150} />
           </div>
           <div className="flex flex-row items-center gap-4 mb-3">
             <img src={phone} alt="book" width={40} />
