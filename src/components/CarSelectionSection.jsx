@@ -3,7 +3,7 @@ import React, {useContext, useState} from 'react';
 import FormDataContext from './FormDataContext';
 
 import sedan from '../assets/sedan.png'
-import SUV from '../assets/SUV.png'
+import SUV from '../assets/suv.png'
 
 const CarSelectionSection = ({ errors }) => {
     const { formData, updateFormData } = useContext(FormDataContext);
@@ -101,7 +101,7 @@ const CarSelectionSection = ({ errors }) => {
           <div className={`border rounded-md overflow-hidden shadow-md ${getCardBorderStyle('SUV')}`}>
             <div className="p-4">
               <h2 className="flex text-lg font-bold mb-2 justify-center">SUV</h2>
-              <img src={SUV} alt="SUV" className="w-full h-full object-cover mb-2" />
+              <img src={SUV} alt="SUV" className="w-full h-full object-cover pt-24 mb-2" />
               <p className="mb-2 font-bold">Price: €{calculatePrice('SUV', distance, boosterSeats)}</p>
               <button onClick={() => handleCarSelection({ car: 'SUV' })} className="bg-blue-500 text-white py-2 px-4 rounded-md">Select SUV</button>
             </div>

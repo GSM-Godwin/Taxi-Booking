@@ -3,7 +3,6 @@ import FormDataContext from './FormDataContext';
 
 const BookingSection = ({ errors, setErrors }) => {
     const { formData, updateFormData } = useContext(FormDataContext);
-
     
     const [pickupLocation, setPickupLocation] = useState('');
     const [dropOffLocation, setDropOffLocation] = useState('');
@@ -178,13 +177,16 @@ const BookingSection = ({ errors, setErrors }) => {
             errors.pickupTime=""
             break;
           case 'passengerCount':
-            setPassengerCount(parseInt(value));
+            setPassengerCount(parseInt(value) <= 6 ? parseInt(value) : "");
+            errors.passengerCount=""
             break;
           case 'luggageCount':
-            setLuggageCount(parseInt(value));
+            setLuggageCount(parseInt(value) <= 6 ? parseInt(value) : "");
+            errors.luggageCount=""
             break;
           case 'boosterSeats':
-            setBoosterSeats(parseInt(value));
+            setBoosterSeats(parseInt(value) <= 3 ? parseInt(value) : "");
+            errors.boosterSeats=""
             break;
           case 'returnDate':
             setReturnDate(value);
@@ -336,6 +338,7 @@ return (
                     name="passengerCount"
                     value={passengerCount}
                     min={1}
+                    max={6}
                     onChange={handleInputChange}
                     required
                     className="border p-2 rounded-md w-full"
@@ -349,6 +352,7 @@ return (
                     name="luggageCount"
                     value={luggageCount}
                     min={0}
+                    max={6}
                     onChange={handleInputChange}
                     required
                     className="border p-2 rounded-md w-full"
@@ -362,6 +366,7 @@ return (
                     name="boosterSeats"
                     value={boosterSeats}
                     min={0}
+                    max={3}
                     required
                     onChange={handleInputChange}
                     className="border p-2 rounded-md w-full"
